@@ -1,10 +1,7 @@
-download and install composer
+download and install composer in https://getcomposer.org/download/
 
-https://getcomposer.org/download/
-
-run in zend_tuto folder :
-
+goto zend_tuto folder  and run :
+```
 composer install
-
-
-with mysql client run : data/cache/dump.sql
+```
+with mysql client run script fil in : zend_tuto/data/cache/dump.sql
