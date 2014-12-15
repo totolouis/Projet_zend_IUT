@@ -1,9 +1,11 @@
-download and install composer in https://getcomposer.org/download/
+Download and install composer in https://getcomposer.org/download/
 
-goto zend_tuto folder  and run :
+Go to zend_tuto folder  and run :
 ```
 composer install
 ```
-with mysql client run script fil in : zend_tuto/data/cache/dump.sql
+With mysql client run the script file in : zend_tuto/data/cache/dump.sql
 
-test application with : http://localhost/zend_tuto/public/success
+To configure the path of log writer you must change the path in zend_tuto/config/autoload/globa.php line 29
+
+Test the example with : http://localhost/zend_tuto/public/success
