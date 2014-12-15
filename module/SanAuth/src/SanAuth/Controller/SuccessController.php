@@ -12,7 +12,9 @@ class SuccessController extends AbstractActionController {
 //                        ->get('AuthService')->hasIdentity()) {
 //            return $this->redirect()->toRoute('login');
 //        }
-
+        $log = $this->getServiceLocator()->get('Zend\Log\Logger');
+        $log->log(1,"ALERT");
+        $log->log(6,"INFO");
         return new ViewModel();
     }
 
