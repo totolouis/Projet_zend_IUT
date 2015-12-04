@@ -102,7 +102,7 @@ class UserController extends AbstractActionController
             $result = $authService->authenticate();
 
             if ($result->isValid()){
-                return $this->redirect()->toRoute('user');
+                return $this->redirect()->toRoute('album');
             }
             else{
                 echo '<div class="alert alert-error">
