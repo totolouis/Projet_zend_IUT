@@ -1,0 +1,6 @@
+Etape pour ajouter le module ZendAuth :
+-> modifier le fichier application.config.php : add du module User
+->peut être un prob : Alan ne possède pas local.php & local.php.dist dans config/autoload/ (a voir)
+-> déplacement du module User dans module/ dans TP1-master de Alan
+
+Chez moi il y a une erreur d'accées à la base de données car j'ai pas les mêmes identifiants que celui du ficher de alan
