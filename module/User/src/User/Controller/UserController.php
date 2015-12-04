@@ -40,7 +40,7 @@ class UserController extends AbstractActionController
         if ($logged === null): $this->redirect()->toRoute('user', array('action' => 'signin')); endif;
         
         $user = $this->getUserTable()->getUserByName($logged);
-
+        
         return array(
             'user' => $user,
         );
