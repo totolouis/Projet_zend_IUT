@@ -1,24 +1,24 @@
 <?php
-namespace Album\Controller;
+namespace Image\Controller;
 
  use Zend\Mvc\Controller\AbstractActionController;
  use Zend\View\Model\ViewModel;
- use Album\Model\Album;          
- use Album\Form\AlbumForm; 
+ use Image\Model\Image;          
+ use Image\Form\ImageForm; 
  
  use Zend\Session\Container;
 
- class AlbumController extends AbstractActionController
+ class ImageController extends AbstractActionController
  {
      // module/Album/src/Album/Controller/AlbumController.php:
-     protected $albumTable;
-     public function getAlbumTable()
+     protected $imageTable;
+     public function getImageTable()
      {
-         if (!$this->albumTable) {
+         if (!$this->imageTable) {
              $sm = $this->getServiceLocator();
-             $this->albumTable = $sm->get('Album\Model\AlbumTable');
+             $this->imageTable = $sm->get('Image\Model\ImageTable');
          }
-         return $this->albumTable;
+         return $this->imageTable;
      }
      
      // module/Album/src/Album/Controller/AlbumController.php:
@@ -26,7 +26,7 @@ namespace Album\Controller;
      public function indexAction()
      {
          return new ViewModel(array(
-             'albums' => $this->getAlbumTable()->fetchAll(),
+             'image' => $this->getImageTable()->fetchAll(),
          ));
      }
  // ...
@@ -34,22 +34,22 @@ namespace Album\Controller;
 
      public function addAction()
      {
-         $form = new AlbumForm();
+         $form = new ImageForm();
          $form->get('submit')->setValue('Add');
 
          $request = $this->getRequest();
          if ($request->isPost()) {
-             $album = new Album();
-             $form->setInputFilter($album->getInputFilter());
+             $image = new Image();
+             $form->setInputFilter($image->getInputFilter());
              $form->setData($request->getPost());
              
 
              if ($form->isValid()) {
-                 $album->exchangeArray($form->getData());
-                 $this->getAlbumTable()->saveAlbum($album);
+                 $image->exchangeArray($form->getData());
+                 $this->getImageTable()->saveImage($image);
 
                  // Redirect to list of albums
-                 return $this->redirect()->toRoute('album');
+                 return $this->redirect()->toRoute('image');
              }
          }
          return array('form' => $form);
@@ -59,7 +59,7 @@ namespace Album\Controller;
      {
          $id = (int) $this->params()->fromRoute('id', 0);
          if (!$id) {
-             return $this->redirect()->toRoute('album', array(
+             return $this->redirect()->toRoute('image', array(
                  'action' => 'add'
              ));
          }
@@ -67,28 +67,28 @@ namespace Album\Controller;
          // Get the Album with the specified id.  An exception is thrown
          // if it cannot be found, in which case go to the index page.
          try {
-             $album = $this->getAlbumTable()->getAlbum($id);
+             $image = $this->getImageTable()->getImage($id);
          }
          catch (\Exception $ex) {
-             return $this->redirect()->toRoute('album', array(
+             return $this->redirect()->toRoute('image', array(
                  'action' => 'index'
              ));
          }
 
          $form  = new AlbumForm();
-         $form->bind($album);
+         $form->bind($image);
          $form->get('submit')->setAttribute('value', 'Edit');
 
          $request = $this->getRequest();
          if ($request->isPost()) {
-             $form->setInputFilter($album->getInputFilter());
+             $form->setInputFilter($image->getInputFilter());
              $form->setData($request->getPost());
 
              if ($form->isValid()) {
-                 $this->getAlbumTable()->saveAlbum($album);
+                 $this->getImageTable()->saveImage($image);
 
                  // Redirect to list of albums
-                 return $this->redirect()->toRoute('album');
+                 return $this->redirect()->toRoute('image');
              }
          }
 
@@ -102,7 +102,7 @@ namespace Album\Controller;
      {
          $id = (int) $this->params()->fromRoute('id', 0);
          if (!$id) {
-             return $this->redirect()->toRoute('album');
+             return $this->redirect()->toRoute('image');
          }
 
          $request = $this->getRequest();
@@ -111,16 +111,16 @@ namespace Album\Controller;
 
              if ($del == 'Yes') {
                  $id = (int) $request->getPost('id');
-                 $this->getAlbumTable()->deleteAlbum($id);
+                 $this->getImageTable()->deleteImage($id);
              }
 
              // Redirect to list of albums
-             return $this->redirect()->toRoute('album');
+             return $this->redirect()->toRoute('image');
          }
 
          return array(
              'id'    => $id,
-             'album' => $this->getAlbumTable()->getAlbum($id)
+             'album' => $this->getImageTable()->getImage($id)
          );
      }
  }

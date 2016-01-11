@@ -1,14 +1,14 @@
 <?php 
-namespace Album\Form;
+namespace Image\Form;
 
  use Zend\Form\Form;
 
- class AlbumForm extends Form
+ class ImageForm extends Form
  {
      public function __construct($name = null)
      {
          // we want to ignore the name passed
-         parent::__construct('album');
+         parent::__construct('image');
 
          $this->add(array(
              'name' => 'id',

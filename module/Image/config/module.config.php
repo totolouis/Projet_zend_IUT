@@ -2,7 +2,7 @@
      return array(
      'controllers' => array(
          'invokables' => array(
-             'Album\Controller\Album' => 'Album\Controller\AlbumController',
+             'Image\Controller\Image' => 'Image\Controller\ImageController',
          ),
      ),
 
@@ -12,13 +12,13 @@
              'album' => array(
                  'type'    => 'segment',
                  'options' => array(
-                     'route'    => '/album[/:action][/:id]',
+                     'route'    => '/image[/:action][/:id]',
                      'constraints' => array(
                          'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                          'id'     => '[0-9]+',
                      ),
                      'defaults' => array(
-                         'controller' => 'Album\Controller\Album',
+                         'controller' => 'Image\Controller\Image',
                          'action'     => 'index',
                      ),
                  ),
@@ -28,7 +28,7 @@
 
      'view_manager' => array(
          'template_path_stack' => array(
-             'album' => __DIR__ . '/../view',
+             'image' => __DIR__ . '/../view',
          ),
      ),
  );

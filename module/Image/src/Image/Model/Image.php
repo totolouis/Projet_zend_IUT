@@ -1,12 +1,12 @@
 <?php
-namespace Album\Model;
+namespace Image\Model;
 
  // Add these import statements
  use Zend\InputFilter\InputFilter;
  use Zend\InputFilter\InputFilterAwareInterface;
  use Zend\InputFilter\InputFilterInterface;
 
- class Album implements InputFilterAwareInterface
+ class Image implements InputFilterAwareInterface
  {
      public $id;
      public $artist;
