@@ -35,7 +35,7 @@ class Module
         if (!$auth->hasIdentity()){
             //si non connecté
             $uri = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-            if($uri != "zf2.localhost/ZendSkeletonApplication/public/user/signin"){
+            if($uri != "zf2.localhost/ZendSkeletonApplication/public/user/signin" AND $uri != "zf2.localhost/ZendSkeletonApplication/public/user/signup"){
                 //$moduleRouteListener->attach(MvcEvent::EVENT_DISPATCH, array($this, 'user'));
                 //$moduleRouteListener->plugin('redirect')->toRoute('user');
                 $url = "zf2.localhost/ZendSkeletonApplication/public/user/signin";

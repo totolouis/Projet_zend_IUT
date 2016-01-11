@@ -29,6 +29,10 @@ namespace Album\Form;
              ),
          ));
          $this->add(array(
+             'name' => 'connect',
+             'type' => 'Hidden',
+         ));
+         $this->add(array(
              'name' => 'submit',
              'type' => 'Submit',
              'attributes' => array(

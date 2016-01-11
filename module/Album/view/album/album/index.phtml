@@ -1,6 +1,7 @@
 <?php
  // module/Album/view/album/album/index.phtml:
 
+use Zend\User;
  $title = 'Alan Ridard\'s Albums';
  $this->headTitle($title);
  ?>
@@ -28,8 +29,6 @@
  </table>
  <p>
     <div class="btn-group">
-      <a class="btn" href="<?= $this->url('user', array('action'=>'account', 'id' => $user->id));?>"><?= $this->translate('Settings'); ?></a>
-      <a class="btn" href="<?= $this->url('user', array('action' => 'signout')); ?>"><?= $this->translate('Log out'); ?></a>
     </div>
      <a class="new" href="<?php echo $this->url('album', array('action'=>'add'));?>">+</a>
  </p>
