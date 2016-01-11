@@ -40,7 +40,7 @@ class UserController extends AbstractActionController
         if ($logged === null): $this->redirect()->toRoute('user', array('action' => 'signin')); endif;
         
         $user = $this->getUserTable()->getUserByName($logged);
-
+        
         return array(
             'user' => $user,
         );
@@ -102,7 +102,7 @@ class UserController extends AbstractActionController
             $result = $authService->authenticate();
 
             if ($result->isValid()){
-                return $this->redirect()->toRoute('user');
+                return $this->redirect()->toRoute('album');
             }
             else{
                 echo '<div class="alert alert-error">
@@ -119,6 +119,7 @@ class UserController extends AbstractActionController
         
         $session = new Container('user');
         $logged = $session->offsetGet('username');
+        
         if($logged === null):$this->redirect()->toRoute('user', array('action' => 'signin'));endif;
         
         $id = (int)$this->params()->fromRoute('id', 0);
