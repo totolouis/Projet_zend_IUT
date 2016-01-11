@@ -1,9 +1,9 @@
 <?php
-    namespace Album\Model;
+    namespace Image\Model;
 
  use Zend\Db\TableGateway\TableGateway;
 
- class AlbumTable
+ class ImageTable
  {
      protected $tableGateway;
 
@@ -18,7 +18,7 @@
          return $resultSet;
      }
 
-     public function getAlbum($id)
+     public function getImage($id)
      {
          $id  = (int) $id;
          $rowset = $this->tableGateway->select(array('id' => $id));
@@ -29,26 +29,26 @@
          return $row;
      }
 
-     public function saveAlbum(Album $album)
+     public function saveImage(Image $image)
      {
          $data = array(
-             'artist' => $album->artist,
-             'title'  => $album->title,
+             'artist' => $image->artist,
+             'title'  => $image->title,
          );
 
-         $id = (int) $album->id;
+         $id = (int) $image->id;
          if ($id == 0) {
              $this->tableGateway->insert($data);
          } else {
-             if ($this->getAlbum($id)) {
+             if ($this->getImage($id)) {
                  $this->tableGateway->update($data, array('id' => $id));
              } else {
-                 throw new \Exception('Album id does not exist');
+                 throw new \Exception('Image id does not exist');
              }
          }
      }
 
-     public function deleteAlbum($id)
+     public function deleteImage($id)
      {
          $this->tableGateway->delete(array('id' => (int) $id));
      }

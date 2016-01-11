@@ -2,8 +2,7 @@
      return array(
      'modules' => array(
          'Application',
-         'Album',
-         'test',
+         'Image',
         // <-- Add this line
      ),
      'module_listener_options' => array(
