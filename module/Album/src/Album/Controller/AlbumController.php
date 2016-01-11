@@ -4,7 +4,9 @@ namespace Album\Controller;
  use Zend\Mvc\Controller\AbstractActionController;
  use Zend\View\Model\ViewModel;
  use Album\Model\Album;          
- use Album\Form\AlbumForm;   
+ use Album\Form\AlbumForm; 
+ 
+ use Zend\Session\Container;
 
  class AlbumController extends AbstractActionController
  {
@@ -40,6 +42,7 @@ namespace Album\Controller;
              $album = new Album();
              $form->setInputFilter($album->getInputFilter());
              $form->setData($request->getPost());
+             
 
              if ($form->isValid()) {
                  $album->exchangeArray($form->getData());

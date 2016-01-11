@@ -13,13 +13,45 @@ namespace Application;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 
+use Zend\Authentication\AuthenticationService;
+use Zend\Mvc\Controller\AbstractActionController;
+
 class Module
 {
     public function onBootstrap(MvcEvent $e)
     {
-        $eventManager        = $e->getApplication()->getEventManager();
+       /*$eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
-        $moduleRouteListener->attach($eventManager);
+        $moduleRouteListener->attach($eventManager);*/
+        
+       $eventManager = $e->getApplication()->getEventManager();
+       $eventManager->attach(MvcEvent::EVENT_DISPATCH, array($this, 'Auth'),1);
+    }
+    
+    public function Auth($e){
+        //----------Auth Logic-----------
+        $auth = new AuthenticationService();
+
+        if (!$auth->hasIdentity()){
+            //si non connecté
+            $uri = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+            if($uri != "zf2.localhost/ZendSkeletonApplication/public/user/signin" AND $uri != "zf2.localhost/ZendSkeletonApplication/public/user/signup"){
+                //$moduleRouteListener->attach(MvcEvent::EVENT_DISPATCH, array($this, 'user'));
+                //$moduleRouteListener->plugin('redirect')->toRoute('user');
+                $url = "zf2.localhost/ZendSkeletonApplication/public/user/signin";
+                
+                $url = $e->getRouter()->assemble(array('action' => 'signin'), array('name' => 'user'));
+
+                $response = $e->getResponse();
+                $response->getHeaders()->addHeaderLine('Location', $url);
+                $response->setStatusCode(302);
+                $response->sendHeaders();
+                exit;
+            }
+        }
+        //------------------------------
+        
+        
     }
 
     public function getConfig()
