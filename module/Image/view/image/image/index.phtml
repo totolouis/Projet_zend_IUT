@@ -1,35 +1,25 @@
 <?php
- // module/Album/view/album/album/index.phtml:
+ // module/Album/view/image/image/index.phtml:
 
-use Zend\User;
- $title = 'Alan Ridard\'s Albums';
+ use Zend\Authentication\AuthenticationService;
+ use Zend\Session\Container;
+
+ $title = 'Images';
  $this->headTitle($title);
  ?>
  <h1><?php echo $this->escapeHtml($title); ?></h1>
- 
+ <?php
+ $url = $this->url('image', array(
+     'action' => 'index',
+     'idMembre' => $this->idMembre,
+ ));   
+ ?>
 
- <table class="table">
- <tr>
-     <th>Title</th>
-     <th>Artist</th>
-     <th>&nbsp;</th>
- </tr>
- <?php foreach ($albums as $album) : ?>
- <tr>
-     <td><?php echo $this->escapeHtml($album->title);?></td>
-     <td><?php echo $this->escapeHtml($album->artist);?></td>
-     <td>
-         <a href="<?php echo $this->url('album',
-             array('action'=>'edit', 'id' => $album->id));?>">Edit</a>
-         <a href="<?php echo $this->url('album',
-             array('action'=>'delete', 'id' => $album->id));?>">Delete</a>
-     </td>
- </tr>
- <?php endforeach; ?>
- </table>
- <p>
-    <div class="btn-group">
-    </div>
-     <a class="new" href="<?php echo $this->url('album', array('action'=>'add'));?>">+</a>
- </p>
+
+ <?php foreach ($users as $user) : ?>
+ 
+            <p>pseudo : <?php echo $user->username;?></p>
+     
+<?php endforeach; ?>
+ 
  

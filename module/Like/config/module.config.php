@@ -2,7 +2,7 @@
      return array(
      'controllers' => array(
          'invokables' => array(
-             'Image\Controller\Image' => 'Image\Controller\ImageController',
+             'Like\Controller\Like' => 'Like\Controller\LikeController',
              'User\Controller\User' => 'User\Controller\UserController',
          ),
      ),
@@ -10,16 +10,16 @@
      // The following section is new and should be added to your file
      'router' => array(
          'routes' => array(
-             'image' => array(
+             'like' => array(
                  'type'    => 'segment',
                  'options' => array(
-                     'route'    => '/image[/:action][/:id]',
+                     'route'    => '/like[/:action][/:id]',
                      'constraints' => array(
                          'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                          'id'     => '[a-zA-Z0-9]*',
                      ),
                      'defaults' => array(
-                         'controller' => 'Image\Controller\Image',
+                         'controller' => 'Like\Controller\Like',
                          'action'     => 'index',
                      ),
                  ),
@@ -43,7 +43,7 @@
 
      'view_manager' => array(
          'template_path_stack' => array(
-             'image' => __DIR__ . '/../view',
+             'like' => __DIR__ . '/../view',
          ),
      ),
  );

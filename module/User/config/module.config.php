@@ -2,7 +2,8 @@
 return array(
     'controllers' => array(
         'invokables' => array(
-            'User\Controller\User' => 'User\Controller\UserController'
+            'User\Controller\User' => 'User\Controller\UserController',
+            'Image\Controller\Image' => 'Image\Controller\ImageController',
         )
     ),
     'router' => array(
@@ -18,9 +19,23 @@ return array(
                     'defaults' => array(
                         'controller' => 'User\Controller\User',
                         'action' => 'index'
-                    )
-                )
-            )
+                    ),
+                ),
+            ),
+            'image' => array(
+                 'type'    => 'segment',
+                 'options' => array(
+                     'route'    => '/image[/:action][/:id]',
+                     'constraints' => array(
+                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                         'id'     => '[0-9]+',
+                     ),
+                     'defaults' => array(
+                         'controller' => 'Image\Controller\Image',
+                         'action'     => 'index',
+                     ),
+                 ),
+             ),
         )
     ),
     

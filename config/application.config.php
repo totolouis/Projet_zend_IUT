@@ -11,6 +11,7 @@ return array(
         'Application',
         'Image',
         'User',
+        'Like',
     ),
 
     // These are various options for the listeners attached to the ModuleManager

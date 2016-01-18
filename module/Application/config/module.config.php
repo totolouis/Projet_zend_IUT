@@ -17,7 +17,7 @@ return array(
                 'options' => array(
                     'route'    => '/',
                     'defaults' => array(
-                        'controller' => 'User\Controller\user',
+                        'controller' => 'User\Controller\User',
                         'action'     => 'signin',
                     ),
                 ),
@@ -64,7 +64,7 @@ return array(
         ),
     ),
     'translator' => array(
-        'locale' => 'en_US',
+        'locale' => 'En_en',
         'translation_file_patterns' => array(
             array(
                 'type'     => 'gettext',

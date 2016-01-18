@@ -24,13 +24,17 @@ class UserTable {
 		}
 		return $row;
 	}
+        
+        public function fetchAll(){
+            $rowset = $this->tableGateway->select();
+            return $rowset;
+        }
 	
 	public function getUserByName($username){
 	    $rowset = $this->tableGateway->select(array(
 	    		'username' => $username
 	    ));
 	    $row = $rowset->current();
-	    
 	    return $row;
 	}
 	

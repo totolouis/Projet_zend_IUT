@@ -1,7 +1,7 @@
 <?php
  // module/Image/view/image/image/add.phtml:
 
- $title = 'Add new Image';
+ $title = 'Add Pics';
  $this->headTitle($title);
  ?>
  <h1><?php echo $this->escapeHtml($title); ?></h1>
@@ -10,10 +10,8 @@
  $form->prepare();
  ?><div class="formBlock"><?php
  echo $this->form()->openTag($form);
- echo $this->formHidden($form->get('id'));
- echo $this->formRow($form->get('title'));?></br><?php
- echo $this->formRow($form->get('artist'));?></br><?php
- echo $this->formHidden($form->get('connect'));
+ echo $this->formRow($form->get('lien'));?></br><?php
+ echo $this->formRow($form->get('idMembre'))?></br><?php
  echo $this->formSubmit($form->get('submit'));
  
  echo $this->form()->closeTag();

@@ -9,18 +9,19 @@ namespace Image\Model;
  class Image implements InputFilterAwareInterface
  {
      public $id;
-     public $artist;
-     public $title;
-     protected $inputFilter;                       // <-- Add this variable
+     public $lien;
+     public $idMembre;
+     protected $inputFilter;                    
 
        public function exchangeArray($data)
      {
-         $this->id     = (isset($data['id']))     ? $data['id']     : null;
-         $this->artist = (isset($data['artist'])) ? $data['artist'] : null;
-         $this->title  = (isset($data['title']))  ? $data['title']  : null;
+         $this->id = (isset($data['id'])) ? $data['id'] : null;
+         $this->lien = (isset($data['lien'])) ? $data['lien'] : null;
+         $this->idMembre  = (isset($data['idMembre']))  ? $data['idMembre']  : null;
      }
 
      // Add the following method:
+                                                    
      public function getArrayCopy()
      {
          return get_object_vars($this);
@@ -38,48 +39,32 @@ namespace Image\Model;
              $inputFilter = new InputFilter();
 
              $inputFilter->add(array(
-                 'name'     => 'id',
+                 'name'     => 'lien',
+                 'required' => true,
+                 'options' => [
+                          'target' => realpath('./BanqueImage'),
+                          'randomize' => true,
+                          'use_upload_extension' => true,
+                 ],
+                 'validators' => array(
+                    array(
+                        'name' => 'Zend\Validator\File\Size',
+                        'options' => array(
+                            'max' => 20000,
+                            ),
+                        'name' => 'Zend\Validator\File\Extension',
+                        'options' => array(
+                            'extension' => 'png, jpg, jpeg',
+                            ),
+                        ),
+                    ),
+             ));
+
+             $inputFilter->add(array(
+                 'name'     => 'idMembre',
                  'required' => true,
                  'filters'  => array(
                      array('name' => 'Int'),
-                 ),
-             ));
-
-             $inputFilter->add(array(
-                 'name'     => 'artist',
-                 'required' => true,
-                 'filters'  => array(
-                     array('name' => 'StripTags'),
-                     array('name' => 'StringTrim'),
-                 ),
-                 'validators' => array(
-                     array(
-                         'name'    => 'StringLength',
-                         'options' => array(
-                             'encoding' => 'UTF-8',
-                             'min'      => 1,
-                             'max'      => 100,
-                         ),
-                     ),
-                 ),
-             ));
-
-             $inputFilter->add(array(
-                 'name'     => 'title',
-                 'required' => true,
-                 'filters'  => array(
-                     array('name' => 'StripTags'),
-                     array('name' => 'StringTrim'),
-                 ),
-                 'validators' => array(
-                     array(
-                         'name'    => 'StringLength',
-                         'options' => array(
-                             'encoding' => 'UTF-8',
-                             'min'      => 1,
-                             'max'      => 100,
-                         ),
-                     ),
                  ),
              ));
 

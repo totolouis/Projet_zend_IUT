@@ -35,26 +35,12 @@
          return $row;
      }
 
-     public function saveImage(Image $image)
+     public function saveLike($image)
      {
-         $data = array(
-             'lien' => $image->lien,
-             'idMembre'  => $image->idMembre,
-         );
-
-         $id = (int) $image->id;
-         if ($id == 0) {
-             $this->tableGateway->insert($data);
-         } else {
-             if ($this->getImage($id)) {
-                 $this->tableGateway->update($data, array('id' => $id));
-             } else {
-                 throw new \Exception('Image id does not exist');
-             }
-         }
+         
      }
 
-     public function deleteImage($id)
+     public function deleteLike($id)
      {
          $this->tableGateway->delete(array('id' => (int) $id));
      }

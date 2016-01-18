@@ -9,10 +9,10 @@ class AccountForm extends Form{
         parent::__construct('account');
         $this->setAttribute('method', 'post');
         $this->add(array(
-        		'name' => 'id',
-        		'attributes' => array(
-        				'type'  => 'hidden',
-        		),
+            'name' => 'id',
+            'attributes' => array(
+                'type'  => 'hidden',
+            ),
         ));
         $this->add(array(
             'name' => 'username',

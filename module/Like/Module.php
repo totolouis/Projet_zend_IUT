@@ -1,12 +1,12 @@
 <?php
- namespace Image;
+ namespace Like;
 
  use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
  use Zend\ModuleManager\Feature\ConfigProviderInterface;
 
  // Add these import statements:
- use Image\Model\Image;
- use Image\Model\ImageTable;
+ use Like\Model\Like;
+ use Like\Model\LikeTable;
  use Zend\Db\ResultSet\ResultSet;
  use Zend\Db\TableGateway\TableGateway;
 
@@ -35,16 +35,16 @@
      {
          return array(
              'factories' => array(
-                 'Image\Model\ImageTable' =>  function($sm) {
-                     $tableGateway = $sm->get('ImageTableGateway');
-                     $table = new ImageTable($tableGateway);
+                 'Like\Model\LikeTable' =>  function($sm) {
+                     $tableGateway = $sm->get('LikeTableGateway');
+                     $table = new LikeTable($tableGateway);
                      return $table;
                  },
-                 'ImageTableGateway' => function ($sm) {
+                 'LikeTableGateway' => function ($sm) {
                      $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
                      $resultSetPrototype = new ResultSet();
-                     $resultSetPrototype->setArrayObjectPrototype(new Image());
-                     return new TableGateway('image', $dbAdapter, null, $resultSetPrototype);
+                     $resultSetPrototype->setArrayObjectPrototype(new Like());
+                     return new TableGateway('like', $dbAdapter, null, $resultSetPrototype);
                  },
              ),
          );

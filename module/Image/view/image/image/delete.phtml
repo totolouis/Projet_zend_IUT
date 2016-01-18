@@ -1,12 +1,11 @@
 <?php
-$title = 'Delete Image';
+$title = 'Delete Pics';
  $this->headTitle($title);
  ?>
  <h1><?php echo $this->escapeHtml($title); ?></h1>
 
  <p>Are you sure that you want to delete
-     '<?php echo $this->escapeHtml($image->title); ?>' by
-     '<?php echo $this->escapeHtml($image->artist); ?>'?
+     '<?php echo $this->escapeHtml($image->lien); ?>'
  </p>
  <?php
  $url = $this->url('image', array(
@@ -17,6 +16,8 @@ $title = 'Delete Image';
  <form action="<?php echo $url; ?>" method="post">
  <div>
      <input type="hidden" name="id" value="<?php echo (int) $image->id; ?>" />
+     <input type="hidden" name="lien" value="<?php echo $image->lien; ?>" />
+     <input type="hidden" name="idMembre" value="<?php echo $image->idMembre; ?>" />
      <input type="submit" name="del" value="Yes" />
      <input type="submit" name="del" value="No" />
  </div>

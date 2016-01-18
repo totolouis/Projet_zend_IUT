@@ -6,12 +6,15 @@ namespace Image\Controller;
  use Image\Model\Image;          
  use Image\Form\ImageForm; 
  
+ use Zend\Authentication\AuthenticationService;
  use Zend\Session\Container;
 
  class ImageController extends AbstractActionController
  {
      // module/Album/src/Album/Controller/AlbumController.php:
      protected $imageTable;
+     protected $userTable;
+     
      public function getImageTable()
      {
          if (!$this->imageTable) {
@@ -21,86 +24,112 @@ namespace Image\Controller;
          return $this->imageTable;
      }
      
+     public function getUserTable(){
+    	if (!$this->userTable){
+    		$sm = $this->getServiceLocator();
+    		$this->userTable = $sm->get('User\Model\UserTable');
+    	}
+    	return $this->userTable;
+    }
+     
+     public function getConnection(){
+         $auth = new AuthenticationService();
+         $logged = null;
+         if ($auth->hasIdentity()){
+             $session = new Container('user');
+             $logged = $session->offsetGet('id');
+         }
+        
+         if ($logged === null): return $this->redirect()->toRoute('user', array('action' => 'signin')); endif;
+         
+         return $logged;
+     }
+     
      // module/Album/src/Album/Controller/AlbumController.php:
  // ...
      public function indexAction()
      {
          return new ViewModel(array(
-             'image' => $this->getImageTable()->fetchAll(),
+             'users' => $this->getUserTable()->fetchAll(),
          ));
      }
  // ...
-   
-
+     
+     public function membreAction(){
+         $return = null;
+         
+         $identifiantMembre = (int) $this->params()->fromRoute('id', 0);
+         
+         return new ViewModel(array(
+             'images' => $this->getImageTable()->fetchAllById($identifiantMembre),
+             'user' => $this->getUserTable()->getUser($identifiantMembre),
+         ));
+     }
+     
      public function addAction()
      {
+         
+         $logged = $this->getConnection();
+         
          $form = new ImageForm();
          $form->get('submit')->setValue('Add');
-
          $request = $this->getRequest();
+         
          if ($request->isPost()) {
+             
              $image = new Image();
              $form->setInputFilter($image->getInputFilter());
-             $form->setData($request->getPost());
              
-
+             
+             $post = array_merge_recursive(
+                $request->getPost()->toArray(),
+                $request->getFiles()->toArray()
+             );
+             
+             $form->setData($post);
+             
+             
              if ($form->isValid()) {
-                 $image->exchangeArray($form->getData());
-                 $this->getImageTable()->saveImage($image);
-
-                 // Redirect to list of albums
-                 return $this->redirect()->toRoute('image');
+                 
+                 $data = $form->getData();
+                 
+                 //On créer la procédure pour renomer l'image
+                 $filter = new \Zend\Filter\File\Rename(array(
+                     "source"    => getcwd().'/public/img/BanqueImage/'.$data['lien']['name'],
+                     "target"    => getcwd().'/public/img/BanqueImage',
+                     "randomize" => true,
+                 ));
+                 
+                 $adapter = new \Zend\File\Transfer\Adapter\Http(); 
+                 $adapter->setDestination(getcwd().'/public/img/BanqueImage/');
+                 
+                 if ($adapter->receive($data['lien']['name'])) {
+                     
+                     //On renomme l'image pour éiter les doublons
+                     $imageName = basename($filter->filter(getcwd().'/public/img/BanqueImage/'.$data['lien']['name']));
+                     
+                     $saveImage = array(
+                           'idMembre' => $logged,
+                           'lien' => $imageName
+                     );
+                     
+                     $image->exchangeArray($saveImage);
+                     $this->getImageTable()->saveImage($image);
+                 }
+                 
+                 // Redirect to list of images
+                 return $this->redirect()->toRoute('image', array('action' => 'membre', 'id' => $logged));
              }
          }
          return array('form' => $form);
      }
-     
-     public function editAction()
-     {
-         $id = (int) $this->params()->fromRoute('id', 0);
-         if (!$id) {
-             return $this->redirect()->toRoute('image', array(
-                 'action' => 'add'
-             ));
-         }
-
-         // Get the Album with the specified id.  An exception is thrown
-         // if it cannot be found, in which case go to the index page.
-         try {
-             $image = $this->getImageTable()->getImage($id);
-         }
-         catch (\Exception $ex) {
-             return $this->redirect()->toRoute('image', array(
-                 'action' => 'index'
-             ));
-         }
-
-         $form  = new AlbumForm();
-         $form->bind($image);
-         $form->get('submit')->setAttribute('value', 'Edit');
-
-         $request = $this->getRequest();
-         if ($request->isPost()) {
-             $form->setInputFilter($image->getInputFilter());
-             $form->setData($request->getPost());
-
-             if ($form->isValid()) {
-                 $this->getImageTable()->saveImage($image);
-
-                 // Redirect to list of albums
-                 return $this->redirect()->toRoute('image');
-             }
-         }
-
-         return array(
-             'id' => $id,
-             'form' => $form,
-         );
-     }
 
      public function deleteAction()
      {
+         $logged = $this->getConnection();
+         
          $id = (int) $this->params()->fromRoute('id', 0);
+         
          if (!$id) {
              return $this->redirect()->toRoute('image');
          }
@@ -111,16 +140,25 @@ namespace Image\Controller;
 
              if ($del == 'Yes') {
                  $id = (int) $request->getPost('id');
+                 $imgName = $request->getPost('lien');
+                 $identifiantMembre = $request->getPost('idMembre');
+                 
+                 if($identifiantMembre != $logged): return $this->redirect()->toRoute('image'); endif;
+                 
                  $this->getImageTable()->deleteImage($id);
+                 
+                 //On supprime l'image du dossier BanqueImage
+                 $imgLinkDelete = getcwd().'/public/img/BanqueImage/'.$imgName;
+                 unlink($imgLinkDelete);
              }
 
-             // Redirect to list of albums
-             return $this->redirect()->toRoute('image');
+             // Redirect to list of images
+             return $this->redirect()->toRoute('image', array('action' => 'membre', 'id' => $logged));
          }
 
          return array(
              'id'    => $id,
-             'album' => $this->getImageTable()->getImage($id)
+             'image' => $this->getImageTable()->getImage($id)
          );
      }
  }

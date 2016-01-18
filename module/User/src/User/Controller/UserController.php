@@ -5,7 +5,6 @@ namespace User\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\Adapter\DbTable as AuthAdapter;
-use Zend\Authentication\Validator\Authentication as AuthenticationValidator;
 use Zend\Session\Container;
 
 use User\Form\LoginForm;
@@ -30,16 +29,13 @@ class UserController extends AbstractActionController
         $identity = null;
         $logged = null;
         if ($auth->hasIdentity()){
-            $identity = $auth->getIdentity();
             $session = new Container('user');
-            $session->offsetUnset('username');
-            $session->offsetSet('username',$identity);
-            $logged = $session->offsetGet('username');
+            $logged = $session->offsetGet('id');
         }
         
         if ($logged === null): $this->redirect()->toRoute('user', array('action' => 'signin')); endif;
         
-        $user = $this->getUserTable()->getUserByName($logged);
+        $user = $this->getUserTable()->getUser($logged);
         
         return array(
             'user' => $user,
@@ -77,39 +73,58 @@ class UserController extends AbstractActionController
         return array('form' => $form);
     }
     
-    public function signinAction(){   
+    public function signinAction(){
         $form = new LoginForm();
-
+        
         $request = $this->getRequest();
+        
         if ($request->isPost()){
-            $post = $request->getPost();
+            
+            $user = new User();
+            
+            $form->setInputFilter($user->getInputFilter());
+            $form->setData($request->getPost());
 
-            $sm = $this->getServiceLocator();
-            $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+            if ($form->isValid()) {
+                
+                $post = $request->getPost();
 
-            $authAdapter = new AuthAdapter($dbAdapter);
+                $sm = $this->getServiceLocator();
+                $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
 
-            $authAdapter->setTableName('user')
-                    ->setIdentityColumn('username')
-                    ->setCredentialColumn('password');
+                $authAdapter = new AuthAdapter($dbAdapter);
 
-            $authAdapter->setIdentity($post->get('username'))
-                    ->setCredential(sha1($post->get('password')));
+                $authAdapter->setTableName('user')
+                        ->setIdentityColumn('username')
+                        ->setCredentialColumn('password');
 
-            $authService = new AuthenticationService();
-            $authService->setAdapter($authAdapter);
+                $authAdapter->setIdentity($post->get('username'))
+                        ->setCredential(sha1($post->get('password')));
+                
+                $authService = new AuthenticationService();
+                
+                $authService->setAdapter($authAdapter);
+                $result = $authService->authenticate();
 
-            $result = $authService->authenticate();
-
-            if ($result->isValid()){
-                return $this->redirect()->toRoute('album');
-            }
-            else{
-                echo '<div class="alert alert-error">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        <h4>Warning!</h4>
-                        Log in failed!.
-                      </div>';
+                if ($result->isValid()){
+                    $user = $this->getUserTable()->getUserByName($post->get('username'));
+                    
+                    $session = new Container('user');
+                    $session->offsetUnset('username');
+                    $session->offsetSet('username', $user->username);
+                    
+                    $session->offsetUnset('id');
+                    $session->offsetSet('id', $user->id);
+                    
+                    return $this->redirect()->toRoute('image');
+                }
+                else{
+                    echo '<div class="alert alert-error">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Warning!</h4>
+                            Log in failed!.
+                          </div>';
+                }
             }
         }
         return array('form' => $form);
@@ -132,7 +147,7 @@ class UserController extends AbstractActionController
         $form = new AccountForm();
         $form->bind($user);
         $form->get('submit')->setAttribute('value', 'Save changes');
-        $form->get('password')->setAttribute('readonly','true');
+        //$form->get('password')->setAttribute('readonly','true');
         
         $request = $this->getRequest();
         if ($request->isPost()){

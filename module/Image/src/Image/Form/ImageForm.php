@@ -3,34 +3,26 @@ namespace Image\Form;
 
  use Zend\Form\Form;
 
+
  class ImageForm extends Form
  {
      public function __construct($name = null)
      {
          // we want to ignore the name passed
          parent::__construct('image');
-
+         
          $this->add(array(
-             'name' => 'id',
-             'type' => 'Hidden',
-         ));
-         $this->add(array(
-             'name' => 'title',
-             'type' => 'Text',
+             'name' => 'lien',
+             'type' => 'file',
              'options' => array(
-                 'label' => 'Title',
+                 'label' => 'Choose a Pic (PNG, JPG)',
              ),
          ));
          $this->add(array(
-             'name' => 'artist',
-             'type' => 'Text',
-             'options' => array(
-                 'label' => 'Artist',
+             'name' => 'idMembre',
+             'attributes' => array(
+                 'type' => 'hidden',
              ),
-         ));
-         $this->add(array(
-             'name' => 'connect',
-             'type' => 'Hidden',
          ));
          $this->add(array(
              'name' => 'submit',

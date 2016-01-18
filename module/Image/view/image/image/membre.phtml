@@ -1,0 +1,36 @@
+<?php
+ use Zend\Authentication\AuthenticationService;
+ use Zend\Session\Container;
+
+ $auth = new AuthenticationService();
+ $logged = null;
+ if ($auth->hasIdentity()){
+    $session = new Container('user');
+    $logged = $session->offsetGet('username');
+    $userId =  $session->id;
+ }
+ 
+ $title =  $user->username.'\'s Pics';
+ $this->headTitle($title);
+ ?>
+ <h1><?php echo $this->escapeHtml($title); ?></h1>
+
+ <?php
+ $url = $this->url('image', array(
+     'action' => 'membre',
+     'id'     => $this->id,
+ ));
+ ?>
+ 
+ <?php foreach ($images as $image) : ?>
+        <div class="image">
+        <img src="../../img/BanqueImage/<?php echo $this->escapeHtml($image->lien);?>" />
+ <?php
+            if($image->idMembre == $userId){
+?>
+                <a class="delete" href="<?php echo $this->url('image',
+                    array('action'=>'delete', 'id' => $image->id));?>">X</a>
+        </div>
+      <?php } ?>
+ 
+ <?php endforeach; ?>
