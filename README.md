@@ -1,5 +1,5 @@
-ZendSkeletonApplication
-=======================
+Instant Pics project
+======================= created by Alan RIDARD & Louis MANGAND
 
 Introduction
 ------------
