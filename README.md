@@ -17,7 +17,7 @@ Installation
         * Par mesure préventive vous pouvez taper : "composer update"
 
 - Installer la base de donnée :
-        * Prendre le fichier BDD.sql dans le répertoire "Source Files"
+        * Prendre le fichier BDD.sql dans le répertoire Source
         * Vous pourrez si une surcouche (ex: phpMyAdmin) est présente sur votre serveur importer ce fichier sur votre serveur pour générer la base de donnée
             --Dans phpMyAdmin, il éxiste un onglet "importer" qui vous permet directement d'importer la base de données
         OU 
