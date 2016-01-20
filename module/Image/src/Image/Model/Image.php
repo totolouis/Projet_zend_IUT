@@ -11,6 +11,9 @@ namespace Image\Model;
      public $id;
      public $lien;
      public $idMembre;
+     public $username;
+     public $Expression1;
+     public $idUser;
      protected $inputFilter;                    
 
        public function exchangeArray($data)
@@ -18,6 +21,10 @@ namespace Image\Model;
          $this->id = (isset($data['id'])) ? $data['id'] : null;
          $this->lien = (isset($data['lien'])) ? $data['lien'] : null;
          $this->idMembre  = (isset($data['idMembre']))  ? $data['idMembre']  : null;
+         
+         $this->username  = (isset($data['username']))  ? $data['username']  : null;
+         $this->idUser  = (isset($data['user.id']))  ? $data['user.id']  : null;
+         $this->Expression1  = (isset($data['Expression1']))  ? $data['Expression1']  : null;
      }
 
      // Add the following method:

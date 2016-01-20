@@ -4,6 +4,7 @@
          'invokables' => array(
              'Like\Controller\Like' => 'Like\Controller\LikeController',
              'User\Controller\User' => 'User\Controller\UserController',
+             'Image\Controller\Image' => 'Image\Controller\ImageController',
          ),
      ),
 

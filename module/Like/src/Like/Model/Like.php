@@ -10,14 +10,14 @@ namespace Like\Model;
  {
      public $id;
      public $idImage;
-     public $idMembre;
+     public $idLiker;
      protected $inputFilter;                    
 
        public function exchangeArray($data)
      {
          $this->id = (isset($data['id'])) ? $data['id'] : null;
-         $this->lien = (isset($data['idImage'])) ? $data['idImage'] : null;
-         $this->idMembre  = (isset($data['idMembre']))  ? $data['idMembre']  : null;
+         $this->idImage = (isset($data['idImage'])) ? $data['idImage'] : null;
+         $this->idLiker  = (isset($data['$idLiker']))  ? $data['$idLiker']  : null;
      }
 
      // Add the following method:
@@ -33,8 +33,6 @@ namespace Like\Model;
          throw new \Exception("Not used");
      }
 
-    public function getInputFilter() {
-        
-    }
+    public function getInputFilter() {}
 
 }

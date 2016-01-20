@@ -4,22 +4,24 @@
  use Zend\Authentication\AuthenticationService;
  use Zend\Session\Container;
 
- $title = 'Images';
+ $title = 'TOP 20 best Pics';
  $this->headTitle($title);
+ 
  ?>
  <h1><?php echo $this->escapeHtml($title); ?></h1>
+
  <?php
- $url = $this->url('image', array(
-     'action' => 'index',
-     'idMembre' => $this->idMembre,
- ));   
- ?>
-
-
- <?php foreach ($users as $user) : ?>
- 
-            <p>pseudo : <?php echo $user->username;?></p>
-     
-<?php endforeach; ?>
+    foreach ($best as $affiche):
+?>
+        <div class="best-image">
+            <a href="<?php echo $this->url('image', array('action' => 'membre', 'id' => $affiche->id));?>" >
+                <img src="img/BanqueImage/<?php echo $this->escapeHtml($affiche->lien); ?>" />
+                <p>Published by : <?php echo $this->escapeHtml($affiche->username) ?><br />
+                    <?php echo $affiche->Expression1; ?> likes</p>
+            </a>
+        </div>
+ <?php
+    endforeach; 
+?>
  
  

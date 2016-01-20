@@ -67,7 +67,7 @@ $(document).ready(function(){
     echo '<dd>';
     echo '<h4>Delete your account : </h4>';
     echo '<a class="btn btn-danger" id="delete">' . $this->translate('Delete account') . '</a>';
-    echo '<a class="btn btn-inverse" id="yes" href="' . $this->url('user', array('action' => 'remove', 'id' => $user->id)) . '">' . $this->translate('Yes') . '</a> &nbsp;';
+    echo '<a class="btn btn-success" id="yes" href="' . $this->url('user', array('action' => 'remove', 'id' => $user->id)) . '">' . $this->translate('Yes') . '</a> &nbsp;';
     echo '<a class="btn btn-success" id="no">' . $this->translate('No') . '</a>';
     echo '</dd>';
     echo '<dl>';

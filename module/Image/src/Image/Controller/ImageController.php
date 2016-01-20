@@ -6,14 +6,16 @@ namespace Image\Controller;
  use Image\Model\Image;          
  use Image\Form\ImageForm; 
  
+ use Like\Controller\LikeController;
+ 
  use Zend\Authentication\AuthenticationService;
  use Zend\Session\Container;
 
  class ImageController extends AbstractActionController
  {
-     // module/Album/src/Album/Controller/AlbumController.php:
      protected $imageTable;
      protected $userTable;
+     protected $likeTable;
      
      public function getImageTable()
      {
@@ -24,15 +26,26 @@ namespace Image\Controller;
          return $this->imageTable;
      }
      
-     public function getUserTable(){
+     public function getUserTable()
+     {
     	if (!$this->userTable){
     		$sm = $this->getServiceLocator();
     		$this->userTable = $sm->get('User\Model\UserTable');
     	}
     	return $this->userTable;
-    }
+     }
      
-     public function getConnection(){
+     public function getLikeTable()
+     {
+         if (!$this->likeTable) {
+             $sm = $this->getServiceLocator();
+             $this->likeTable = $sm->get('Like\Model\LikeTable');
+         }
+         return $this->likeTable;
+     }
+     
+     public function getConnection()
+     {
          $auth = new AuthenticationService();
          $logged = null;
          if ($auth->hasIdentity()){
@@ -45,24 +58,49 @@ namespace Image\Controller;
          return $logged;
      }
      
-     // module/Album/src/Album/Controller/AlbumController.php:
  // ...
      public function indexAction()
      {
+         
          return new ViewModel(array(
-             'users' => $this->getUserTable()->fetchAll(),
+             'best' => $this->getImageTable()->get20BestPics(),
          ));
      }
  // ...
      
-     public function membreAction(){
+     public function membreAction()
+     {
          $return = null;
          
          $identifiantMembre = (int) $this->params()->fromRoute('id', 0);
          
+         $auth = new AuthenticationService();
+         $logged = null;
+         
+         if ($auth->hasIdentity()){
+             $session = new Container('user');
+             $logged = $session->offsetGet('id');
+             
+         }
+         
+         $like = array();
+         $images = $this->getImageTable()->fetchAllById($identifiantMembre);
+         if($logged != null){
+             foreach ($images as $image):
+                 $isLike = $this->getLikeTable()->fetchCorrespondance($logged, $image->id);
+                 foreach ($isLike as $isLikeTest):
+                    if($isLikeTest->id != null)
+                            array_push($like, 'FALSE');
+                    else
+                        array_push($like, 'TRUE');
+                 endforeach;
+             endforeach;
+         }
+         
          return new ViewModel(array(
              'images' => $this->getImageTable()->fetchAllById($identifiantMembre),
              'user' => $this->getUserTable()->getUser($identifiantMembre),
+             'like' => $like,
          ));
      }
      

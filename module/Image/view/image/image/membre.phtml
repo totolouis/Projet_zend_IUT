@@ -22,7 +22,8 @@
  ));
  ?>
  
- <?php foreach ($images as $image) : ?>
+ <?php $i = 0;
+      foreach ($images as $image) : ?>
         <div class="image">
         <img src="../../img/BanqueImage/<?php echo $this->escapeHtml($image->lien);?>" />
  <?php
@@ -31,6 +32,27 @@
                 <a class="delete" href="<?php echo $this->url('image',
                     array('action'=>'delete', 'id' => $image->id));?>">X</a>
         </div>
-      <?php } ?>
- 
- <?php endforeach; ?>
+      <?php }
+            else{
+                if($like != null){
+                    if($like[$i] == 'FALSE'){
+          ?>
+                        <a class="like-delete like" href="<?php echo $this->url('like',
+                                array('action'=>'delete', 'id' => $image->id));?>"><img src="../../img/pouce.jpg" /></a>
+           <?php    }
+                    else{
+          ?>
+                        <a class="like-add like" href="<?php echo $this->url('like',
+                            array('action'=>'add', 'id' => $image->id));?>"><img src="../../img/pouce.jpg" /></a>
+     <?php 
+                    }
+                }
+                else{
+     ?>
+                    <a class="like-add like" href="<?php echo $this->url('like',
+                            array('action'=>'add', 'id' => $image->id));?>"><img src="../../img/pouce.jpg" /></a>
+     <?php
+                }
+            }
+            $i++;
+ endforeach; ?>

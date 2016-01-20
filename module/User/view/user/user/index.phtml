@@ -1,15 +1,21 @@
 <?php 
-$title = 'Welcome !';
+$title = 'Account';
 $this->headtitle($title);
 ?>
 
 <h3><?= $this->escapehtml($title); ?></h3>
-<div class="btn-group">
-    <a class="btn" href="<?= $this->url('user', array('action'=>'account', 'id' => $user->id));?>"><?= $this->translate('Settings'); ?></a>
-    <a class="btn" href="<?= $this->url('user', array('action' => 'signout')); ?>"><?= $this->translate('Log out'); ?></a>
-</div>
-<br/>
-<br/>
+
 <p>
     Hi, <strong><?= $user->username ?></strong> !
 </p>
+
+<a class="btn btn-success" href="<?= $this->url('user', array('action'=>'account', 'id' => $user->id));?>"><?= $this->translate('Settings'); ?></a>
+<a class="btn btn-success" href="<?= $this->url('user', array('action' => 'signout')); ?>"><?= $this->translate('Log out'); ?></a>
+
+
+
+<p>
+    It's your link to share your Pics whith your friends : <strong><?php echo $this->serverUrl(); ?>/public/image/membre/<?php echo $user->id; ?></strong>
+</p>
+<br/>
+<br/>

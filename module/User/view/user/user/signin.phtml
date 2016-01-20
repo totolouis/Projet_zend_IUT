@@ -24,7 +24,7 @@ $this->headtitle($title);
     echo '</dd>';
     echo '<dd>';
     echo $this->formsubmit($form->get('submit')->setAttribute('class', 'btn btn-success'));
-    echo '&nbsp; <a class="btn btn-inverse" href="' . $this->url('user', array('action' => 'signup')) . '">' . $this->translate('Sign up') . '</a>';
+    echo '&nbsp; <a class="btn btn-success" href="' . $this->url('user', array('action' => 'signup')) . '">' . $this->translate('Sign up') . '</a>';
     echo '</dd>';
     echo '<dl>';
 ?>

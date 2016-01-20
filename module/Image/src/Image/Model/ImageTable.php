@@ -2,6 +2,7 @@
     namespace Image\Model;
 
  use Zend\Db\TableGateway\TableGateway;
+ use Zend\Db;
 
  class ImageTable
  {
@@ -33,6 +34,21 @@
              throw new \Exception("Could not find row $id");
          }
          return $row;
+     }
+     
+     public function get20BestPics()
+     {
+         $sqlSelect = $this->tableGateway->getSql()->select();
+         $sqlSelect->columns(array('idMembre', 'lien', new Db\Sql\Predicate\Expression('COUNT(*)') ));
+         $sqlSelect->join('like', 'like.idImage = image.id', array('idLiker'), 'inner');
+         $sqlSelect->join('user', 'image.idMembre = user.id', array('username', 'id'), 'inner');
+         $sqlSelect->group('image.id');
+         $sqlSelect->order(array('Expression1 DESC'));
+         $sqlSelect->limit(20);
+         
+         $resultSet = $this->tableGateway->selectWith($sqlSelect);
+         
+         return $resultSet;
      }
 
      public function saveImage(Image $image)

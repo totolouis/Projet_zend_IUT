@@ -10,13 +10,13 @@ body {
 }
 
 .btn-success {
-  background-color: #57a900;
-  background-image: -moz-linear-gradient(top, #70d900, #57a900);
-  background-image: -ms-linear-gradient(top, #70d900, #57a900);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#70d900), to(#57a900));
-  background-image: -webkit-linear-gradient(top, #70d900, #57a900);
-  background-image: -o-linear-gradient(top, #70d900, #57a900);
-  background-image: linear-gradient(top, #70d900, #57a900);
+  background-color: #16a085;
+  background-image: -moz-linear-gradient(top, #1abc9c, #16a085);
+  background-image: -ms-linear-gradient(top, #1abc9c, #16a085);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#1abc9c), to(#16a085));
+  background-image: -webkit-linear-gradient(top, #1abc9c, #16a085);
+  background-image: -o-linear-gradient(top, #1abc9c, #16a085);
+  background-image: linear-gradient(top, #1abc9c, #16a085);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#70d900', endColorstr='#57a900', GradientType=0);
 }
 
@@ -25,12 +25,18 @@ body {
 .btn-success.active,
 .btn-success.disabled,
 .btn-success[disabled] {
-  background-color: #57a900;
+  background-color: #16a085;
 }
 
 .btn-success:active, .btn-success.active {
-  background-color: #57a900;
+  background-color: #16a085;
 }
+
+nav{
+    background-color: #95a5a6;
+    color: white;
+}
+
 
 div.container a.brand {
     background: url("../img/zf2-logo.png") no-repeat scroll 0 10px transparent;
@@ -49,11 +55,15 @@ form input[type="submit"]{
     padding-left: 3%;
     padding-right: 3%;
     border: none;
+    margin: auto;
 }
 
 img{
-    display: block;
+    display: inline-block;
     margin: auto;
+    margin-top: 5%;
+    width: 20%;
+    height: 20%;
 }
 
 .delete{
@@ -69,4 +79,69 @@ img{
 .delete:hover{
     text-decoration: none;
     color: white;
+}
+
+.best-image{
+    display: inline-block;
+    width: 20%;
+}
+
+.best-image p{
+    background-color: #27ae60;
+    color: white;
+}
+
+.best-image img{
+    width: 100%;
+    height: 100%;
+}
+
+.best-image a{
+    text-decoration: none;
+    color: white;
+}
+
+.like-add{
+    display: inline-block;
+    margin-bottom: -8%;
+    
+    overflow:hidden;
+    width: 100px;
+}
+
+.like-delete{
+    display: inline-block;
+    margin-bottom: -8%;
+    
+    overflow:hidden;
+    width: 100px;
+}
+
+.like-add img{
+    width: 200%;
+}
+
+.like-delete img{
+    display: inline-block;
+    width: 250%;
+    padding-left: 50%;
+    margin-left: -150%;
+}
+
+.button-acount{
+    color: white;
+    background-color: #27ae60;
+    display: inline-block;
+    
+    padding: 1%;
+}
+
+.button-acount:hover{
+    text-decoration: none;
+    color: white;
+}
+
+.btn-group{
+    padding: 2%;
+    width: 50%;
 }

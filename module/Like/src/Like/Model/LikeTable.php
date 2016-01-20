@@ -1,9 +1,9 @@
 <?php
-    namespace Image\Model;
+    namespace Like\Model;
 
  use Zend\Db\TableGateway\TableGateway;
 
- class ImageTable
+ class LikeTable
  {
      protected $tableGateway;
 
@@ -14,7 +14,19 @@
 
      public function fetchAllById($id)
      {
-         $resultSet = $this->tableGateway->select(array('idMembre' => $id));
+         $resultSet = $this->tableGateway->select(array('id' => $id));
+         return $resultSet;
+     }
+     
+     public function fetchAllByUser($id)
+     {
+         $resultSet = $this->tableGateway->select(array('idLiker' => $id));
+         return $resultSet;
+     }
+     
+     public function fetchCorrespondance($id, $idImage)
+     {
+         $resultSet = $this->tableGateway->select(array('idLiker' => $id, 'idImage' => $idImage));
          return $resultSet;
      }
      
@@ -24,19 +36,14 @@
          return $resultSet;
      }
 
-     public function getImage($id)
+     public function saveLike($image, $idMembre)
      {
-         $id  = (int) $id;
-         $rowset = $this->tableGateway->select(array('id' => $id));
-         $row = $rowset->current();
-         if (!$row) {
-             throw new \Exception("Could not find row $id");
-         }
-         return $row;
-     }
-
-     public function saveLike($image)
-     {
+         $data = array(
+             'idLiker' => $idMembre,
+             'idImage'  => $image->id,
+         );
+         
+         $this->tableGateway->insert($data);
          
      }
 
