@@ -22,6 +22,8 @@ Cette application permet de partager des images via un compte.
             --Dans phpMyAdmin, il existe un onglet "importer" qui vous permet directement d'importer la base de données
         OU 
         + Vous pourrez l'ouvrir avec un éditeur de texte et vous servir des données pour générer votre base de données vous même 
+        + Pensez bien à appeler le Schema "zend2" placer les tables dans ce Schema
+        + Si votre connexion à votre base de donnée s'ouvre avec un mot de passe et/ou a un login différent de *root*, veuillez modifier le fichier *global.php* situé dans */config/autoload/global.php*
 
 - Vous pouvez maintenant vous rendre sur votre navigateur pour ouvrir le chemin allant jusqu'à votre application
 
