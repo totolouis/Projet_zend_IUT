@@ -17,6 +17,8 @@
 
 - Un petit bandeau vert indique le nom de l'utilisateur ayant posté la photo, ainsi que le nombre de likes que possédent la photo
 
+- L'utilisateur peut arriver à tout moment sur cette page en cliquant sur *Home* ou sur la rubrique *Instant pics*
+
 ####Rubrique account
 - L'utilisateur peut partager un lien qui redirige vers toutes ses images : c'est-à-dire la rubrique *My pic's* 
 
